@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Custom Chocolate Bundle</title>
+    <style>
+        body {
+        background-image: url("pngtree-dessert-chocolate-cake-theme-food-main-picture-image_185152.jpg");
+        background-size: 100% 100%;
+        background-repeat:no-repeat;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.chocolate-item {
+    margin: 20px;
+    display: inline-block;
+    text-align: center;
+}
+
+.chocolate-image {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+#total-price {
+    margin-top: 20px;
+}
+.h1{
+    color:black;
+}
+#chocolates{
+    font-size: larger;
+    color: black;
+}
+.h2{
+    color:white;
+}
+
+        </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="h1">Build Your Custom Chocolate Bundle</h1>
+
+        <div id="chocolates">
+            <!-- Chocolate items will be dynamically added here -->
+        </div>
+
+        <div id="total-price">
+           <h1> <strong>Total Price:</strong></h1><h2 class="h2"> $<span id="total">0.00</span></h2>
+        </div>
+    </div>
+
+    <script >document.addEventListener('DOMContentLoaded', function () {
+        const chocolates = [
+            { id: 1, name: 'Dark Chocolate', price: 2.50, image: 'dark chochlate.jpeg' },
+            { id: 2, name: 'Milk Chocolate', price: 2.00, image: 'white chocolate.jpeg' },
+            { id: 3, name: 'White Chocolate', price: 3.00, image: 'milk chocolate.jpeg' },
+            { id: 4, name: 'Nestle Chocolate', price: 3.00, image: 'nestle.jpeg' },
+            { id: 5, name: 'Dairy Milk Chocolate', price: 5.00, image: 'dairymilk.jpeg' },
+            { id: 6, name: 'Hazelnut Chocolate', price: 2.50, image: 'dark chochlate.jpeg' },
+            { id: 7, name: 'Cramel Chocolate', price: 2.00, image: 'white chocolate.jpeg' },
+            { id: 8, name: 'truffle Chocolate', price: 1.00, image: 'milk chocolate.jpeg' },
+            // Add more chocolates as needed
+        ];
+    
+        const chocolatesContainer = document.getElementById('chocolates');
+        const totalContainer = document.getElementById('total');
+        let selectedChocolates = [];
+    
+        // Dynamically create chocolate checkboxes with images
+        chocolates.forEach(chocolate => {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `chocolate-${chocolate.id}`;
+            checkbox.value = chocolate.price;
+            checkbox.addEventListener('change', () => updateTotal());
+    
+            const label = document.createElement('label');
+            label.htmlFor = `chocolate-${chocolate.id}`;
+            label.textContent = `${chocolate.name} - $${chocolate.price.toFixed(2)}`;
+    
+            const img = document.createElement('img');
+            img.src = chocolate.image;
+            img.alt = chocolate.name;
+            img.classList.add('chocolate-image');
+    
+            const div = document.createElement('div');
+            div.classList.add('chocolate-item');
+            div.appendChild(checkbox);
+            div.appendChild(img);
+            div.appendChild(label);
+    
+            chocolatesContainer.appendChild(div);
+        });
+    
+        // Update total price based on selected chocolates
+        function updateTotal() {
+            selectedChocolates = Array.from(document.querySelectorAll('input[type=checkbox]:checked'))
+                .map(checkbox => ({ name: checkbox.nextElementSibling.textContent.split(' - ')[0], price: parseFloat(checkbox.value) }));
+    
+            const totalPrice = selectedChocolates.reduce((sum, chocolate) => sum + chocolate.price, 0).toFixed(2);
+            totalContainer.textContent = totalPrice;
+        }
+    });</script>
+</body>
+</html>
